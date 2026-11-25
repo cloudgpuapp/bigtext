@@ -25,6 +25,7 @@ Usage: bigtext [OPTIONS] [FILE[:LINE] ...]
   --new-window     open a window of its own (files otherwise open in the
                    BigText already running)
   -h, --help       show this help
+  -V, --version    show the version
 
 Script commands run without a window as  bigtext --COMMAND …  (bigtext-cli COMMAND …
 in scripts on Windows, where bigtext.exe is a windowed program); all commands:
@@ -38,6 +39,7 @@ pub struct UserArgs {
     pub follow: bool,
     pub stdin: bool,
     pub help: bool,
+    pub version: bool,
     /// Start a window of its own rather than opening the files in the one already running.
     pub new_window: bool,
 }
@@ -74,6 +76,7 @@ pub fn take(
 ) -> Result<(), String> {
     match arg {
         "-h" | "--help" | "/?" => args.help = true,
+        "-V" | "--version" => args.version = true,
         "-" => args.stdin = true,
         "-f" | "--follow" => args.follow = true,
         "--new-window" => args.new_window = true,
@@ -152,6 +155,15 @@ mod tests {
             parse(&["missing.log:5"], &[]).unwrap().files,
             vec![(PathBuf::from("missing.log:5"), None)]
         );
+    }
+
+    #[test]
+    fn version_options() {
+        for flag in ["-V", "--version"] {
+            let args = parse(&[flag], &[]).unwrap();
+            assert!(args.version);
+            assert!(!args.help && args.files.is_empty());
+        }
     }
 
     #[test]

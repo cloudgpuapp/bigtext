@@ -27,6 +27,8 @@ use crate::timestamp;
 pub const USAGE: &str = "\
 bigtext-cli: BigText's tools for scripts (bigtext --COMMAND works too)
 
+  -V, --version  Show the version and exit.
+
   filter [-v] [-i] [-w] [-E] [CONTEXT] PATTERN FILE [-o OUT]
         Lines with a match (-v: without one; -i: ignore case; -w: whole words;
         -E: regular expression). To OUT in the file's encoding, or to the
@@ -3140,6 +3142,8 @@ mod tests {
         assert!(!is_command("sort"));
         assert!(!is_command("-sort"));
         assert!(!is_command("--nope"));
+        assert!(!is_command("--version"));
+        assert!(!is_command("-V"));
         // bigtext-cli takes both.
         let d = tempfile::tempdir().unwrap();
         let f = file(&d, "a.log", b"b\na\n");

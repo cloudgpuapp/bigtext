@@ -178,6 +178,14 @@ fn main() -> eframe::Result {
         tell("BigText", cli::USAGE, false);
         return Ok(());
     }
+    if user.version {
+        tell(
+            "BigText",
+            concat!("BigText ", env!("CARGO_PKG_VERSION")),
+            false,
+        );
+        return Ok(());
+    }
     if !errors.is_empty() {
         tell(
             "BigText",

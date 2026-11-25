@@ -11,6 +11,9 @@ fn main() {
     } else if matches!(args[0].as_str(), "-h" | "--help") {
         print!("{}", bigtext::headless::USAGE);
         0
+    } else if matches!(args[0].as_str(), "-V" | "--version") {
+        println!("bigtext-cli {}", env!("CARGO_PKG_VERSION"));
+        0
     } else {
         bigtext::headless::run(
             &args,
